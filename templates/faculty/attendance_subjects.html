@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Attendance Report - Assigned Subjects</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">
+            <h6 class="m-0 font-weight-bold">Subjects Overview</h6>
+        </div>
+        <div class="card-body">
+            {% if subjects %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Subject</th>
+                            <th>Course</th>
+                            <th>Semester</th>
+                            <th style="width: 180px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subject in subjects %}
+                        <tr>
+                            <td>{{ subject.name }}</td>
+                            <td>{{ subject.course.name }}</td>
+                            <td>{{ subject.semester }}</td>
+                            <td>
+                                <div class="d-flex">
+                                    <a href="{% url 'view_attendance' subject.id %}"
+                                        class="btn btn-sm btn-outline-info mr-2">View Attendance</a>
+                                    <a href="{% url 'attendance_summary' subject.id %}"
+                                        class="btn btn-sm btn-outline-primary">View Report</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-warning text-center mb-0">No subjects assigned to you.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

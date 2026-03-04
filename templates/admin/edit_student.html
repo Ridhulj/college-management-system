@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% load form_filters %}
+
+{% block title %}Edit Student{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Edit Student</h1>
+
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <div class="form-row">
+                    {% for field in form %}
+                        <div class="form-group col-md-6">
+                            {{ field.label_tag }}
+                            {{ field|add_class:"form-control" }}
+                            {% if field.errors %}
+                                <div class="text-danger small">{{ field.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update Student</button>
+                <a href="{% url 'manage_students' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

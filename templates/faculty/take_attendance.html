@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<style>
+    /* Medium-size checkbox styling */
+    .form-check-input-md {
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+        margin-top: 2px;
+    }
+
+    .form-check-label {
+        font-size: 1rem;
+    }
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .form-check-wrapper {
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">{{ subject.name }} - Take Attendance</h1>
+
+    <!-- Show success or error messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="card shadow mb-4">
+            <div class="card-body">
+
+                <!-- Attendance Date -->
+                <div class="mb-3">
+                    <label for="attendance_date"><strong>Date</strong></label>
+                   <input type="date" name="attendance_date" class="form-control" required value="{{ today }}">
+                </div>
+
+                <!-- Student Checkboxes -->
+                <div class="mb-3">
+                    <label><strong>Students</strong></label>
+                    <div class="row">
+                        {% for student in students %}
+                            <div class="col-md-6">
+                                <div class="form-check-wrapper">
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input form-check-input-md"
+                                            type="checkbox"
+                                            name="present_students"
+                                            value="{{ student.id }}"
+                                            id="student_{{ student.id }}"
+                                        >
+                                        <label class="form-check-label" for="student_{{ student.id }}">
+                                            {{ student.user.get_full_name }} ({{ student.roll_no }})
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Submit and Cancel -->
+                <button type="submit" class="btn btn-primary">Submit Attendance</button>
+                <a href="{% url 'faculty_subjects' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

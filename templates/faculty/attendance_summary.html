@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">{{ subject.name }} - Attendance Summary</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            {% if summary %}
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Roll No</th>
+                            <th>Sessions Attended</th>
+                            <th>Total Sessions</th>
+                            <th>Attendance %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in summary %}
+                        <tr>
+                            <td>{{ item.student.user.get_full_name }}</td>
+                            <td>{{ item.student.roll_no }}</td>
+                            <td>{{ item.attended }}</td>
+                            <td>{{ item.total }}</td>
+                            <td>{{ item.percent }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p>No attendance data available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'assets/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable();
+    });
+</script>
+{% endblock %}

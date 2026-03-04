@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_head %}
+<link href="{% static 'assets/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Manage Placements{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Manage Placements</h1>
+
+    <div class="mb-3">
+        <a href="{% url 'add_placement' %}" class="btn btn-primary">
+            <i class="fas fa-plus-circle"></i> Add Job / Internship
+        </a>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            {% if placements %}
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Company</th>
+                            <th>Position</th>
+                            <th>Type</th>
+                            <th>Skills Required</th>
+                            <th>Eligible Courses</th>
+                            <th>Location</th>
+                            <th>Last Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for placement in placements %}
+                        <tr>
+                            <td>{{ placement.company }}</td>
+                            <td>{{ placement.position }}</td>
+                            <td>{{ placement.get_type_display }}</td>
+                            <td>{{ placement.skills_required }}</td>
+                            <td>
+                                {% for course in placement.eligible_courses.all %}
+                                {{ course.name }}{% if not forloop.last %}, {% endif %}
+                                {% empty %}
+                                <em>None</em>
+                                {% endfor %}
+                            </td>
+                            <td>{{ placement.location }}</td>
+                            <td>{{ placement.last_date_to_apply }}</td>
+                            <td>
+                                <div class="d-grid gap-2">
+                                    <a href="{% url 'edit_placement' placement.id %}"
+                                        class="btn btn-sm btn-info mb-1 w-100">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a href="{% url 'delete_placement' placement.id %}"
+                                        class="btn btn-sm btn-danger mb-1 w-100"
+                                        onclick="return confirm('Are you sure you want to delete this placement?');">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </a>
+                                    <a href="{% url 'view_applicants' placement.id %}"
+                                        class="btn btn-sm btn-success w-100">
+                                        <i class="fas fa-users"></i> Applicants
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p>No placements found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'assets/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            responsive: true
+        });
+    });
+</script>
+{% endblock %}

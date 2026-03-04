@@ -1,0 +1,64 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Faculty Panel</div>
+    </a>
+
+    <hr class="sidebar-divider my-0">
+
+    <li class="nav-item {% if request.resolver_match.url_name == 'faculty_dashboard' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'faculty_dashboard' %}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">Teaching</div>
+
+    <li class="nav-item {% if request.resolver_match.url_name == 'faculty_subjects' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'faculty_subjects' %}">
+            <i class="fas fa-calendar-check"></i>
+            <span>Subjects Management</span>
+        </a>
+    </li>
+
+    <li class="nav-item {% if request.resolver_match.url_name == 'attendance_report' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'attendance_report' %}">
+            <i class="fas fa-chart-bar"></i>
+            <span>Attendance Report</span>
+        </a>
+    </li>
+
+    <li class="nav-item {% if request.resolver_match.url_name == 'faculty_marks' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'faculty_marks' %}">
+            <i class="fas fa-clipboard-list"></i>
+            <span>Marks Management</span>
+        </a>
+    </li>
+
+    <li class="nav-item {% if request.resolver_match.url_name == 'faculty_assignments' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'faculty_assignments' %}">
+            <i class="fas fa-clipboard-list"></i>
+            <span>Manage Assignments</span>
+        </a>
+    </li>
+
+    <li class="nav-item {% if request.resolver_match.url_name == 'manage_faculty_notifications' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'manage_faculty_notifications' %}">
+            <i class="fas fa-bell"></i>
+            <span>Manage Notifications</span>
+        </a>
+    </li>
+
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>

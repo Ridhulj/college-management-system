@@ -1,0 +1,97 @@
+{% load static %}
+{% load form_filters %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}College Management System{% endblock %}</title>
+
+    <!-- Fonts and styles -->
+    <link href="{% static 'assets/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,700,800,900" rel="stylesheet">
+    <link href="{% static 'assets/css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link href="{% static 'assets/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body id="page-top">
+
+
+    <div id="wrapper">
+
+        <!-- Dynamic Sidebar -->
+        {% if request.user.is_authenticated %}
+        {% if request.user.role == 'admin' %}
+        {% include 'partials/sidebar_admin.html' %}
+        {% elif request.user.role == 'faculty' %}
+        {% include 'partials/sidebar_faculty.html' %}
+        {% elif request.user.role == 'student' %}
+        {% include 'partials/sidebar_student.html' %}
+        {% endif %}
+        {% endif %}
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+
+                <!-- Topbar -->
+                {% include 'partials/topbar.html' %}
+
+                {% if messages %}
+                <div
+                    style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1050; min-width: 300px;">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <script>
+                    setTimeout(function () {
+                        $('.alert').fadeTo(500, 0).slideUp(500, function () {
+                            $(this).remove();
+                        });
+                    }, 4000); // Dismiss after 4 seconds
+                </script>
+                {% endif %}
+
+                <!-- Main Page Content -->
+                <div class="container-fluid">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="text-center my-auto">
+                        <span>© College Management System 2025</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+
+    <!-- JS Scripts -->
+    <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'assets/js/sb-admin-2.min.js' %}"></script>
+    <!-- DataTables JS -->
+    <script src="{% static 'assets/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+    {% block extra_scripts %} {% endblock %}
+
+</body>
+
+</html>

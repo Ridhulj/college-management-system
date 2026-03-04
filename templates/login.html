@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>College Management System - Login</title>
+
+    <!-- Fonts & Styles -->
+    <link href="{% static 'assets/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900" rel="stylesheet">
+    <link href="{% static 'assets/css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #3f51b5, #5a55ae);
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .login-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .bg-login-image {
+            background: url("{% static 'assets/img/login.jpg' %}");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+
+        .form-control-user {
+            border-radius: 10rem;
+        }
+
+        .btn-user {
+            border-radius: 10rem;
+            font-weight: bold;
+        }
+
+        .logo-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4e73df;
+        }
+
+        .header-bar {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .text-gray-900 {
+            color: #343a40 !important;
+        }
+
+        .input-group-text {
+            border-radius: 0 10rem 10rem 0 !important;
+        }
+    </style>
+</head>
+
+<body class="d-flex align-items-center" style="min-height:100vh;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card login-card o-hidden">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="header-bar">
+                                        <div class="logo-title mt-2">College Management System</div>
+                                    </div>
+                                    <h1 class="h4 text-gray-900 text-center mb-4">Login to Your Account</h1>
+
+                                    <!-- FORM START -->
+                                    <form class="user" method="POST">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <input type="text" name="username" class="form-control form-control-user"
+                                                placeholder="Enter Username..." required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="password" name="password" id="password"
+                                                    class="form-control form-control-user"
+                                                    placeholder="Enter Password" required>
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text bg-white border-left-0" style="cursor:pointer;" onclick="togglePassword()">
+                                                        <i id="togglePasswordIcon" class="fas fa-eye text-primary"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            Login
+                                        </button>
+
+                                        {% if messages %}
+                                            <div class="text-danger text-center mt-3">
+                                                {% for message in messages %}
+                                                    {{ message }}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </form>
+                                    <!-- FORM END -->
+
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'assets/js/sb-admin-2.min.js' %}"></script>
+
+    <!-- Password Toggle Script -->
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            const icon = document.getElementById("togglePasswordIcon");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+    </script>
+</body>
+</html>

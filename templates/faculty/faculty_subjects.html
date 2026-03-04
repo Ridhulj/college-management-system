@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Subjects{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">My Assigned Subjects</h1>
+
+    <div class="card shadow border-left-primary">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="m-0">Assigned Subjects</h5>
+            <i class="fas fa-book-open"></i>
+        </div>
+        <div class="card-body">
+            {% if subjects %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Course</th>
+                            <th scope="col">Semester</th>
+                            <th scope="col" style="width: 250px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subject in subjects %}
+                        <tr>
+                            <td>{{ subject.name }}</td>
+                            <td>{{ subject.course.name }}</td>
+                            <td>{{ subject.get_semester_display }}</td>
+                            <td class="d-flex gap-2">
+                                <a href="{% url 'take_attendance' subject.id %}" class="btn btn-success btn-sm">
+                                    <i class="fas fa-clipboard-check"></i> Take Attendance
+                                </a>
+                                <a href="{% url 'course_materials' subject.id %}"
+                                    class="btn btn-warning btn-sm text-dark">
+                                    <i class="fas fa-folder-open"></i> Course Materials
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info mb-0" role="alert">
+                <i class="fas fa-info-circle"></i> You have no subjects assigned.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

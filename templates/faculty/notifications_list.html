@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">{{ title }}</h1>
+
+    {% if notifications %}
+    <div class="card shadow">
+        <div class="card-body">
+            <ul class="list-group">
+                {% for note in notifications %}
+                <li class="list-group-item">
+                    <strong>{{ note.title }}</strong><br>
+                    <small class="text-muted">{{ note.created_at|date:"M d, Y H:i" }}</small>
+                    <p class="mt-2 mb-1">{{ note.message }}</p>
+
+                    <div class="text-muted small">Sent by Administrator</div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% else %}
+    <p>No notifications available.</p>
+    {% endif %}
+</div>
+{% endblock %}

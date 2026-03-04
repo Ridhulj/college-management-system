@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">{{ assignment.title }}</h1>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <p><strong>Subject:</strong> {{ assignment.subject.name }}</p>
+            <p><strong>Deadline:</strong> {{ assignment.deadline }}</p>
+            <p><strong>Description:</strong></p>
+            <p>{{ assignment.description }}</p>
+
+            {% if submission %}
+                <hr>
+                <p class="text-success">You have already submitted this assignment.</p>
+                <a href="{{ submission.file.url }}" download class="btn btn-sm btn-outline-success">
+    <i class="fas fa-download me-2"></i> Download Submitted File
+</a>
+            {% elif deadline_passed %}
+                <hr>
+                <p class="text-danger">The deadline has passed. You cannot submit this assignment.</p>
+            {% else %}
+                <hr>
+                <h5>Submit Assignment</h5>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form.file.label_tag }}
+                        {{ form.file }}
+                        {% if form.file.errors %}
+                            <div class="text-danger small">{{ form.file.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

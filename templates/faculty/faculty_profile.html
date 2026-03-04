@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">My Profile</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="card shadow mb-4">
+            <div class="card-body">
+
+                <!-- Name & Username -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label><strong>Full Name</strong></label>
+                        <input type="text" class="form-control" value="{{ request.user.get_full_name }}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label><strong>Username</strong></label>
+                        <input type="text" class="form-control" value="{{ request.user.username }}" readonly>
+                    </div>
+                </div>
+
+                <!-- Department (readonly) -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label><strong>Department</strong></label>
+                        <input type="text" class="form-control" value="{{ request.user.faculty_profile.get_department_display }}" readonly>
+                    </div>
+                       <div class="col-md-6">
+                        <label for="phone"><strong>Phone Number</strong></label>
+                        <input type="text" name="phone" id="phoneField" class="form-control" value="{{ form.phone.value }}" readonly>
+                    </div>
+                </div>
+
+                <!-- Editable Fields -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="email"><strong>Email</strong></label>
+                        <input type="email" name="email" id="emailField" class="form-control" value="{{ form.email.value }}" readonly>
+                    </div>
+                 
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-primary" id="editBtn" onclick="enableEdit()">Edit Profile</button>
+                    <button type="submit" class="btn btn-success d-none" id="saveBtn">Save Changes</button>
+                    <button type="button" class="btn btn-secondary d-none" id="cancelBtn" onclick="cancelEdit()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function enableEdit() {
+        document.getElementById("emailField").readOnly = false;
+        document.getElementById("phoneField").readOnly = false;
+        document.getElementById("editBtn").classList.add('d-none');
+        document.getElementById("saveBtn").classList.remove('d-none');
+        document.getElementById("cancelBtn").classList.remove('d-none');
+    }
+
+    function cancelEdit() {
+        document.getElementById("emailField").readOnly = true;
+        document.getElementById("phoneField").readOnly = true;
+        document.getElementById("editBtn").classList.remove('d-none');
+        document.getElementById("saveBtn").classList.add('d-none');
+        document.getElementById("cancelBtn").classList.add('d-none');
+    }
+</script>
+{% endblock %}

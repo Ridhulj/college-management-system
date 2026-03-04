@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">{{ title }}</h1>
+
+    {% if submissions %}
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Roll No</th>
+                            <th>Submitted At</th>
+                            <th>File</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for submission in submissions %}
+                        <tr>
+                            <td>{{ submission.student.user.get_full_name }}</td>
+                            <td>{{ submission.student.roll_no }}</td>
+                            <td>{{ submission.submitted_at|date:"Y-m-d H:i" }}</td>
+                            <td>
+                                <a href="{{ submission.file.url }}" download
+                                    class="btn btn-sm btn-outline-success d-flex align-items-center justify-content-center px-3 py-1">
+                                    <i class="fas fa-download me-1"></i> Download
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p>No submissions yet for this assignment.</p>
+    {% endif %}
+</div>
+{% endblock %}

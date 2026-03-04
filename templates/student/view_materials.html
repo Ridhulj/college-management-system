@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Course Materials{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">
+        <i class="fas fa-book-open"></i> Course Materials for {{ subject.name }}
+    </h1>
+
+    {% if materials %}
+    <div class="card shadow border-left-primary">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Title</th>
+                            <th>Uploaded By</th>
+                            <th>Uploaded At</th>
+                            <th>Download</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for material in materials %}
+                        <tr>
+                            <td>{{ material.title }}</td>
+                            <td>{{ material.uploaded_by.get_full_name }}</td>
+                            <td>{{ material.uploaded_at|date:"M d, Y H:i" }}</td>
+                            <td>
+                                <a href="{{ material.file.url }}" download class="btn btn-sm btn-outline-success d-flex align-items-center gap-2 px-3 py-1">
+                                    <i class="fas fa-download"></i> <span>Download</span>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info mt-3" role="alert">
+        <i class="fas fa-info-circle"></i> No materials uploaded for this subject.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

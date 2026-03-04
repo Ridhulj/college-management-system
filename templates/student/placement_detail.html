@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{{ placement.title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <h3 class="mb-3">{{ placement.title }} at {{ placement.company }}</h3>
+            
+            <p><strong>Position:</strong> {{ placement.position }}</p>
+            <p><strong>Type:</strong> {{ placement.get_type_display }}</p>
+            <p><strong>Location:</strong> {{ placement.location }}</p>
+            <p><strong>Skills Required:</strong> {{ placement.skills_required }}</p>
+            <p><strong>Eligibility Criteria:</strong> {{ placement.eligibility|default:"Not specified" }}</p>
+            <p><strong>Description:</strong> {{ placement.description }}</p>
+            <p><strong>Last Date to Apply:</strong> {{ placement.last_date_to_apply }}</p>
+
+            <p><strong>Eligible Courses:</strong>
+                {% for course in placement.eligible_courses.all %}
+                    {{ course.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+
+            {% if already_applied %}
+            <div class="alert alert-success mt-3">You have already applied for this opportunity.</div>
+            {% else %}
+            <a href="{% url 'apply_for_placement' placement.id %}" class="btn btn-success mt-3">Apply Now</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

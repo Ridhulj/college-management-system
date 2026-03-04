@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Placement Opportunities{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Placement & Internship Opportunities</h1>
+
+    {% if placements %}
+    <div class="row">
+        {% for placement in placements %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow border-left-success h-100">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-success">{{ placement.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        🏢 {{ placement.company }} – <span class="text-dark">{{ placement.position }}</span>
+                    </h6>
+
+                    <ul class="list-unstyled small mb-2">
+                        <li><strong>📌 Type:</strong> {{ placement.get_type_display }}</li>
+                        <li><strong>📍 Location:</strong> {{ placement.location }}</li>
+                        <li><strong>🛠 Skills:</strong> {{ placement.skills_required }}</li>
+                        <li><strong>📅 Last Date:</strong> {{ placement.last_date_to_apply|date:"M d, Y" }}</li>
+                        <li><strong>🎓 Eligible Courses:</strong>
+                            {% for course in placement.eligible_courses.all %}
+                                {{ course.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </li>
+                    </ul>
+
+                    <div class="mt-auto pt-2 d-flex justify-content-between align-items-center">
+                        <a href="{% url 'placement_detail_view' placement.id %}" class="btn btn-sm btn-outline-success">
+                            📄 View Details
+                        </a>
+                        {% if placement.id in applied_ids %}
+                        <span class="badge badge-success ml-2">✅ Applied</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info shadow-sm">
+        🚫 No active opportunities available for your course at the moment. Please check back later.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-graduation-cap"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">College CMS</div>
+    </a>
+
+    <hr class="sidebar-divider my-0">
+
+    <li class="nav-item {% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'admin_dashboard' %}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">Management</div>
+
+    <li class="nav-item {% if request.resolver_match.url_name == 'manage_students' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'manage_students' %}">
+            <i class="fas fa-users"></i>
+            <span>Manage Students</span>
+        </a>
+    </li>
+
+    <li class="nav-item {% if request.resolver_match.url_name == 'manage_faculty' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'manage_faculty' %}">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span>Manage Faculty</span>
+        </a>
+    </li>
+
+    <li class="nav-item {% if request.resolver_match.url_name == 'manage_courses' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'manage_courses' %}">
+            <i class="fas fa-book-open"></i>
+            <span>Courses</span>
+        </a>
+    </li>
+
+    <li class="nav-item {% if request.resolver_match.url_name == 'manage_subjects' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'manage_subjects' %}">
+            <i class="fas fa-book"></i>
+            <span>Manage Subjects</span>
+        </a>
+    </li>
+
+    <li class="nav-item {% if request.resolver_match.url_name == 'manage_placements' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'manage_placements' %}">
+            <i class="fas fa-book"></i>
+            <span>Manage Placements</span>
+        </a>
+    </li>
+
+    <li class="nav-item {% if request.resolver_match.url_name == 'manage_notifications' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'manage_notifications' %}">
+            <i class="fas fa-bell"></i>
+            <span>Manage Notifications</span>
+        </a>
+    </li>
+
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>

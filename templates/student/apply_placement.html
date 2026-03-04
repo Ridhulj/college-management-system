@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Apply for Placement{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="mb-3">Apply for {{ placement.title }} at {{ placement.company }}</h4>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Submit Application</button>
+                        <a href="{% url 'list_placements_cards' %}" class="btn btn-secondary ml-2">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

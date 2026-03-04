@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Subjects{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-primary">📚 My Subjects</h1>
+
+    {% if subject_data %}
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle text-center">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Subject</th>
+                            <th>Semester</th>
+                            <th>Faculty</th>
+                            <th>Attendance</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in subject_data %}
+                        <tr>
+                            <td><strong>{{ item.subject.name }}</strong></td>
+                            <td>
+                                <span class="badge badge-pill badge-info">
+                                    Semester {{ item.subject.semester }}
+                                </span>
+                            </td>
+                            <td>{{ item.faculty_name }}</td>
+                            <td>
+                                <span class="badge badge-success">{{ item.attendance_percent }}%</span>
+                            </td>
+                            <td>
+                                <div class="d-flex ">
+                                    <a href="{% url 'student_view_attendance' item.subject.id %}" class="btn btn-sm btn-outline-primary mr-2">
+                                        Attendance
+                                    </a>
+                                    <a href="{% url 'student_view_marks' item.subject.id %}" class="btn btn-sm btn-outline-success mr-2">
+                                        Marks
+                                    </a>
+                                    <a href="{% url 'student_view_materials' item.subject.id %}" class="btn btn-sm btn-outline-warning mr-2">
+                                       Course Materials
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info">No subjects assigned yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

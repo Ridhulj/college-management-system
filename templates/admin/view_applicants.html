@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'assets/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">{{ title }}</h1>
+
+    {% if applications %}
+    <div class="mb-3">
+        <a href="?export=csv" class="btn btn-sm btn-outline-success">
+            <i class="fas fa-file-csv"></i> Export CSV
+        </a>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Roll No</th>
+                            <th>Email</th>
+                            <th>Course</th>
+                            <th>Semester</th>
+                            <th>Applied On</th>
+                            <th>Resume</th>
+                            <th>Additional Info</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for app in applications %}
+                        <tr>
+                            <td>{{ app.student.user.get_full_name }}</td>
+                            <td>{{ app.student.roll_no }}</td>
+                            <td>{{ app.student.user.email }}</td>
+                            <td>{{ app.student.course.name }}</td>
+                            <td>{{ app.student.semester }}</td>
+                            <td>{{ app.applied_at|date:"Y-m-d H:i" }}</td>
+                            <td>
+                                <a href="{{ app.resume }}" target="_blank" class="btn btn-sm btn-info">View</a>
+                            </td>
+                            <td>{{ app.additional_info|default:"-" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% else %}
+        <p>No students have applied for this placement yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'assets/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "order": [[5, "desc"]],
+            "pageLength": 25,
+            "columnDefs": [{ "orderable": false, "targets": 6 }]
+        });
+    });
+</script>
+{% endblock %}

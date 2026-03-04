@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">My Profile</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="card shadow mb-4">
+            <div class="card-body">
+
+                <!-- Full Name & Roll Number (Always Readonly) -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label><strong>Full Name</strong></label>
+                        <input type="text" class="form-control" value="{{ user.get_full_name }}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label><strong>Roll Number</strong></label>
+                        <input type="text" class="form-control" value="{{ student.roll_no }}" readonly>
+                    </div>
+                </div>
+
+                <!-- Course & Year (Always Readonly) -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label><strong>Course</strong></label>
+                        <input type="text" class="form-control" value="{{ student.course.name }}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label><strong>Semester</strong></label>
+                        <input type="text" class="form-control" value="{{ student.get_semester_display  }}" readonly>
+                    </div>
+                </div>
+
+                <!-- Email & Phone (Editable on button click) -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label><strong>Email</strong></label>
+                        <input type="email" name="email" class="form-control" value="{{ user.email }}" id="emailField"
+                            readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label><strong>Phone Number</strong></label>
+                        <input type="text" name="phone" class="form-control" value="{{ form.phone.value }}"
+                            id="phoneField" readonly>
+
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-primary" id="editBtn" onclick="enableEdit()">Edit
+                        Profile</button>
+                    <button type="submit" class="btn btn-success d-none" id="saveBtn">Save Changes</button>
+                    <button type="button" class="btn btn-secondary d-none" id="cancelBtn"
+                        onclick="cancelEdit()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function enableEdit() {
+        document.getElementById("emailField").readOnly = false;
+        document.getElementById("phoneField").readOnly = false; // Add this
+        document.getElementById("editBtn").classList.add('d-none');
+        document.getElementById("saveBtn").classList.remove('d-none');
+        document.getElementById("cancelBtn").classList.remove('d-none');
+    }
+
+    function cancelEdit() {
+        document.getElementById("emailField").readOnly = true;
+        document.getElementById("phoneField").readOnly = true; // Add this
+        document.getElementById("editBtn").classList.remove('d-none');
+        document.getElementById("saveBtn").classList.add('d-none');
+        document.getElementById("cancelBtn").classList.add('d-none');
+    }
+
+</script>
+{% endblock %}

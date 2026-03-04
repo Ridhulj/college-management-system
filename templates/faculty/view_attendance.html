@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block extra_head %}
+<link href="{% static 'assets/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">{{ subject.name }} - View Attendance</h1>
+
+    <form method="get" class="form-inline mb-3">
+        <label class="mr-2">From:</label>
+        <input type="date" name="start_date" class="form-control mr-2" value="{{ start_date }}">
+        <label class="mr-2">To:</label>
+        <input type="date" name="end_date" class="form-control mr-2" value="{{ end_date }}">
+        <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+        {% if start_date or end_date %}
+        <a href="{% url 'view_attendance' subject.id %}" class="btn btn-sm btn-secondary ml-2">Reset</a>
+        {% endif %}
+    </form>
+
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            {% if records %}
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Student</th>
+                            <th>Roll No</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in records %}
+                        <tr>
+                            <td>{{ record.session.date }}</td>
+                            <td>{{ record.student.user.get_full_name }}</td>
+                            <td>{{ record.student.roll_no }}</td>
+                            <td>
+                                {% if record.status == 'present' %}
+                                <span class="text-success">Present</span>
+                                {% else %}
+                                <span class="text-danger">Absent</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p>No attendance records found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'assets/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "order": [[0, "desc"]]  // Sort by date descending
+        });
+    });
+</script>
+{% endblock %}
